@@ -1,0 +1,5 @@
+{
+    "addresses": {
+        "MONGODB_URI": "mongodb://root:FPiNzBAqOa3YtbBqyCbb9YGr@aberama.iran.liara.ir:30199/my-app?authSource=admin&replicaSet=rs0&directConnection=true"
+    }
+}
