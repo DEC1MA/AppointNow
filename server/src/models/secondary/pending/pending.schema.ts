@@ -3,12 +3,12 @@ import mongoose, { Schema } from 'mongoose';
 
 interface IPending {
     phone: string;
-    vcoide: string,
+    vCode: string,
     cCode: string
 }
 let PendingSchema = new Schema<IPending>({
     phone: { type: String, required: true, unique: true },
-    vcoide: { type: String, required: true },
+    vCode: { type: String, required: true },
     cCode: { type: String, required: true },
 })
 

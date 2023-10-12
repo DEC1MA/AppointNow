@@ -31,7 +31,7 @@ class EventFactory {
         return await Event.find({ userId: new mongoose.Types.ObjectId(data.userId), _id: new mongoose.Types.ObjectId(data.eventId) }).session(session).exec()
     }
     async readByQuery(data: { query: string }) {
-        return await Event.find({ $text : { $search : data.query } })
+        return Event.find().exec()
     }
     async update(condition: { businessId: string }, data: {
         userId: string, name: string, about: string, location: string, phone: string,

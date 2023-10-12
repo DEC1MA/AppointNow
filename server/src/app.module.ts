@@ -15,6 +15,6 @@ import { UserModule } from './models/primary/user/user.module';
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(AuthMiddleware).forRoutes('user', 'business', 'room', 'event', 'access');
+    consumer.apply(AuthMiddleware).forRoutes('business', 'room', 'event', 'access');
   }
 }

@@ -15,7 +15,7 @@ const register = async (phone: string) => {
         }
         await session.commitTransaction();
         session.endSession();
-        return { status: 'success', data: { clientCode: pending.cCode } }
+        return { status: 'success', data: { clientCode: pending.cCode, verificationCode: pending.vCode } }
     } catch (ex) {
         console.log(ex)
         console.log('transaction aborted')

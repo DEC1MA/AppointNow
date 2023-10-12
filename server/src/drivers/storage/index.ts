@@ -1,5 +1,5 @@
 
-import { connect } from 'mongoose'
+import mongoose, { connect } from 'mongoose'
 import res from '../../resources/data.js'
 
 import * as PendingWrapper from '../../models/secondary/pending/pending.schema';
@@ -19,6 +19,7 @@ import BusinessFactory from './factories/business/BusinessFactory.js';
 class Storage {
     private static async connectToDb() {
         await connect(res.json.config.addresses.MONGODB_URI);
+        await mongoose.connection.db.dropDatabase();
     }
     private static prepareSchemas() {
         //secondary models

@@ -25,7 +25,6 @@ let BusinessSchema = new Schema<IBusiness>({
 let Business: mongoose.Model<IBusiness>;
 
 let prepare = () => {
-    BusinessSchema.index({ name: 'text', about: 'text', location: 'text', phone: 'text' }, { default_language: 'none' });
     Business = mongoose.model<IBusiness>('Business', BusinessSchema, 'Business')
 }
 

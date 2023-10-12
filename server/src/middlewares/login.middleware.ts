@@ -15,11 +15,11 @@ export let Sessions = {
 @Injectable()
 export class AuthMiddleware implements NestMiddleware {
     use(req: Request, res: Response, next: NextFunction) {
-        let token = req.headers.token?.toString();
+        let token = req.get('token');
         let userId = sessions[token];
-        //if (userId) {
+        if (userId) {
             req.body.userId = userId;
             next();
-        //}
+        }
     }
 }

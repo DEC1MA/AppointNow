@@ -12,7 +12,7 @@ const verify = async (cCode: string, vCode: string) => {
         if (!pending) {
             return { status: 'failure', details: 'registration not found' }
         }
-        await PendingFactory.instance.update({ phone: pending.phone }, { phone: pending.phone, vCode: '', cCode: generator.makeUniqueId(), state: 'verified' }, session)
+        pending = await PendingFactory.instance.update({ phone: pending.phone }, { phone: pending.phone, vCode: '', cCode: generator.makeUniqueId(), state: 'verified' }, session)
         await session.commitTransaction();
         session.endSession();
         return { status: 'success', data: { clientCode: pending.cCode } }

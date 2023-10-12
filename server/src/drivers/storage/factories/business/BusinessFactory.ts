@@ -17,7 +17,7 @@ class BusinessFactory {
             duration: number
         },
         session: mongoose.mongo.ClientSession) {
-        return (await Business.create([data], { session }))[0];
+        return (await Business.create([{ ...data, ownerId: new mongoose.Types.ObjectId(data.userId) }], { session }))[0];
     }
     async readByOwnerId(data: { ownerId: string }, session: mongoose.mongo.ClientSession) {
         return await Business.find({ ownerId: new mongoose.Types.ObjectId(data.ownerId) }).session(session).exec()
@@ -26,7 +26,23 @@ class BusinessFactory {
         return await Business.findOne({ _id: new mongoose.Types.ObjectId(data.businessId) }).session(session).exec()
     }
     async readByQuery(data: { query: string }) {
-        return await Business.find({ $text : { $search : data.query } })
+        return Business.find({
+            $or: [
+                { "phone": { "$regex": data.query, "$options": "i" } },
+                {
+                    $or: [
+
+                        { "location": { "$regex": data.query, "$options": "i" } },
+                        {
+                            $or: [
+                                { "name": { "$regex": data.query, "$options": "i" } },
+                                { "about": { "$regex": data.query, "$options": "i" } }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }).exec()
     }
     async update(condition: { businessId: string }, data: {
         userId: string, name: string, about: string, location: string, phone: string,

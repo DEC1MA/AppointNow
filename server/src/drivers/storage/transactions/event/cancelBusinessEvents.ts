@@ -11,7 +11,7 @@ const cancelBusinessEvents = async (userId: string, businessId: string) => {
     session.startTransaction();
     try {
         let business = await BusinessFactory.instance.read({ businessId }, session)
-        if (business.ownerId.toString() === userId) {
+        if (business.ownerId.toString() === userId.toString()) {
             await EventFactory.instance.deleteByBusinessId({ businessId }, session)
             await session.commitTransaction()
             session.endSession()
