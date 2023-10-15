@@ -19,14 +19,14 @@ const cancelBusinessEvents = async (userId: string, businessId: string) => {
         } else {
             await session.abortTransaction();
             session.endSession();
-            return { status: 'faulure', details: 'access denied' }
+            return { status: 'failure', details: 'access denied' }
         }
     } catch (ex) {
         console.log(ex)
         console.log('transaction aborted')
         await session.abortTransaction();
         session.endSession();
-        return { status: 'faulure', details: ex }
+        return { status: 'failure', details: ex }
     }
 }
 

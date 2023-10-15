@@ -13,6 +13,9 @@ class PendingFactory {
     async create (data: { phone: string, vCode: string, cCode: string }, session: mongoose.mongo.ClientSession) {
         return (await Pending.create([data], { session }))[0];
     }
+    async createAndVerify (data: { phone: string, vCode: string, cCode: string, state: string }, session: mongoose.mongo.ClientSession) {
+        return (await Pending.create([data], { session }))[0];
+    }
     async readByPhone (data: { phone: string }, session: mongoose.mongo.ClientSession) {
         return await Pending.findOne(data).session(session).exec()
     }

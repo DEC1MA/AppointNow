@@ -18,4 +18,7 @@ export class UserService {
   async login(body: { token: string }) {
     return await transactions.user.login(body.token)
   }
+  async connectTelegram(body: { token: string, firstName: string, lastName: string }) {
+    return await transactions.user.connectTelegram(body.token, body.firstName, body.lastName)
+  }
 }

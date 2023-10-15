@@ -27,7 +27,7 @@ const cancel = async (userId: string, eventId: string) => {
         console.log('transaction aborted')
         await session.abortTransaction();
         session.endSession();
-        return { status: 'faulure', details: ex }
+        return { status: 'failure', details: ex }
     }
 }
 

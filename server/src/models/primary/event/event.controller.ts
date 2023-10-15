@@ -34,4 +34,9 @@ export class EventController {
   async cancelBusinessEvents(@Body() body: any): Promise<{ status: string, data?: any, details?: any }> {
     return await this.eventService.cancelBusinessEvents(body)
   }
+
+  @Post('/readFreeTimes')
+  async readFreeTimes(@Body() body: any): Promise<{ status: string, data?: any, details?: any }> {
+    return await this.eventService.readFreeTimes(body)
+  }
 }

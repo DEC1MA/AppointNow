@@ -19,6 +19,7 @@ import BusinessFactory from './factories/business/BusinessFactory.js';
 class Storage {
     private static async connectToDb() {
         await connect(res.json.config.addresses.MONGODB_URI);
+        await mongoose.connection.db.dropDatabase()
     }
     private static prepareSchemas() {
         //secondary models

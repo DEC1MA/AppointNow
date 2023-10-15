@@ -21,4 +21,7 @@ export class EventService {
   async search(body: { userId: string, query: string }) {
     return await transactions.event.search(body.userId, body.query)
   }
+  async readFreeTimes(body: { businessId: string }) {
+    return await transactions.event.readFreeTimes(body.businessId)
+  }
 }

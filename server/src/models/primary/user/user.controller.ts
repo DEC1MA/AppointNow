@@ -29,4 +29,9 @@ export class UserController {
   async login(@Body() body: any): Promise<{ status: string, data?: any, details?: any }> {
     return await this.userService.login(body)
   }
+
+  @Post('/connectTelegram')
+  async connectTelegram(@Body() body: any): Promise<{ status: string, data?: any, details?: any }> {
+    return await this.userService.connectTelegram(body)
+  }
 }

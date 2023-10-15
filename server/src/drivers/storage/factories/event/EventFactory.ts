@@ -24,8 +24,12 @@ class EventFactory {
             return await Event.find({ userId: new mongoose.Types.ObjectId(data.userId) }).exec()
         }
     }
-    async readByBusinessId(data: { businessId: string }, session: mongoose.mongo.ClientSession) {
-        return await Event.find({ businessId: new mongoose.Types.ObjectId(data.businessId) }).session(session).exec()
+    async readByBusinessId(data: { businessId: string }, session?: mongoose.mongo.ClientSession) {
+        if (session) {
+            return await Event.find({ businessId: new mongoose.Types.ObjectId(data.businessId) }).session(session).exec()
+        } else {
+            return await Event.find({ businessId: new mongoose.Types.ObjectId(data.businessId) }).exec()
+        }
     }
     async readByUserIdAndEventId(data: { userId: string, eventId: string }, session: mongoose.mongo.ClientSession) {
         return await Event.find({ userId: new mongoose.Types.ObjectId(data.userId), _id: new mongoose.Types.ObjectId(data.eventId) }).session(session).exec()

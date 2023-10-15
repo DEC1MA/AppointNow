@@ -15,7 +15,7 @@ class UserFactory {
     }
     async read(data: { userId: string }, session?: mongoose.mongo.ClientSession) {
         if (session) {
-            return await User.findOne({ _id: new mongoose.Types.ObjectId(data.userId) }, { session }).exec();
+            return await User.findOne({ _id: new mongoose.Types.ObjectId(data.userId) }).session(session).exec();
         } else {
             return await User.findOne({ _id: new mongoose.Types.ObjectId(data.userId) }).exec();
         }

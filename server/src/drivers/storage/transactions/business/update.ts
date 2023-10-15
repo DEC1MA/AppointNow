@@ -28,7 +28,7 @@ const update = async (userId: string, businessId: string, name: string, about: s
         console.log('transaction aborted')
         await session.abortTransaction();
         session.endSession();
-        return { status: 'faulure', details: ex }
+        return { status: 'failure', details: ex }
     }
 }
 

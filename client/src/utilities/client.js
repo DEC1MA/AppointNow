@@ -5,8 +5,8 @@ let token = undefined
 
 let request = async (url, headers, body) => {
   let authHeaders = { ...headers, token }
-  console.log(url, authHeaders, body)
   try {
+    console.log(url, authHeaders, body)
     const { data } = await axios.post(`http://localhost:10000/${url}`, body, { headers: authHeaders });
     return data;
   } catch (error) {
@@ -20,7 +20,16 @@ class Api {
     Api._instance = this;
   }
   user = {
-    token: undefined,
+    connectTelegram(t, firstName, lastName) {
+      return new Promise(resolve => {
+        request("user/connectTelegram", {}, { token: t, firstName, lastName }).then(res => {
+          if (res.status === 'success') {
+            token = res.data.session.token
+          }
+          resolve(res)
+        });
+      })
+    },
     register(phone) {
       return request("user/register", {}, { phone });
     },
@@ -107,17 +116,24 @@ class Api {
     cancel(eventId) {
       return request("event/cancel", {}, { eventId });
     },
+    readFreeTimes(businessId) {
+      return request("event/readFreeTimes", {}, { businessId });
+    },
   };
 }
 
 let api = new Api();
 (async () => {
-  let res1 = await api.user.register("+123456789");
-  console.log(res1)
-  let res2 = await api.user.verify(res1.data.clientCode, res1.data.verificationCode);
-  console.log(res2)
-  let res3 = await api.user.complete(res2.data.clientCode, 'edward', 'kasperian');
-  console.log(res3)
+  // let res1 = await api.user.register("+123456789");
+  // console.log(res1)
+  // let res2 = await api.user.verify(res1.data.clientCode, res1.data.verificationCode);
+  // console.log(res2)
+  // let res3 = await api.user.complete(res2.data.clientCode, 'edward', 'kasperian');
+  // console.log(res3)
+
+  let res0 = await api.user.connectTelegram('1234567890987654321', 'edward', 'kasperian')
+  console.log(res0)
+
   let res4 = await api.user.login();
   console.log(res4)
 
@@ -151,10 +167,12 @@ let api = new Api();
   console.log(res9)
   let res10 = await api.event.search(res6.data.business._id, 123)
   console.log(res10)
-  let res11 = await api.event.cancel(res9.data.event._id)
+  let res11 = await api.event.readFreeTimes(res6.data.business._id)
   console.log(res11)
-  let res12 = await api.event.cancelUserEvents()
+  let res12 = await api.event.cancel(res9.data.event._id)
   console.log(res12)
-  let res13 = await api.event.cancelBusinessEvents(res5.data.business._id)
+  let res13 = await api.event.cancelUserEvents()
   console.log(res13)
+  let res14 = await api.event.cancelBusinessEvents(res5.data.business._id)
+  console.log(res14)
 })()
