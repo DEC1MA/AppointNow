@@ -7,7 +7,7 @@ interface IEvent {
     businessId: Schema.Types.ObjectId
 }
 let EventSchema = new Schema<IEvent>({
-    startTime: { type: Number, required: true },
+    startTime: { type: Number, required: true, unique: true },
     userId: { type: Schema.Types.ObjectId, required: true },
     businessId: { type: Schema.Types.ObjectId , required: true }
 })

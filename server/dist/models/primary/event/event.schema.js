@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.prepare = exports.Event = void 0;
 const mongoose_1 = require("mongoose");
 let EventSchema = new mongoose_1.Schema({
-    startTime: { type: Number, required: true },
+    startTime: { type: Number, required: true, unique: true },
     userId: { type: mongoose_1.Schema.Types.ObjectId, required: true },
     businessId: { type: mongoose_1.Schema.Types.ObjectId, required: true }
 });
