@@ -1,23 +1,13 @@
 import axios from "axios";
 
-const api_url = "test";
+const api_url = process.env.REACT_APP_SERVER_URL;
 
-export const register = async (phone) => {
+export const connectTelegram = async (t, firstName, lastName) => {
   try {
-    const { data } = await axios.post(`${api_url}/user/register`, {
-      phone: phone,
-    });
-
-    return data;
-  } catch (error) {
-    console.log(error?.response?.data?.message);
-  }
-};
-
-export const login = async (phone) => {
-  try {
-    const { data } = await axios.post(`${api_url}/user/login`, {
-      phone: phone,
+    const { data } = await axios.post(`${api_url}/user/connectTelegram`, {
+      t,
+      firstName,
+      lastName,
     });
 
     return data;
