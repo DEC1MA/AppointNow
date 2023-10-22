@@ -12,11 +12,18 @@ import ForMe from "../components/ForMe";
 import SwipeableViews from "react-swipeable-views";
 import SearchPage from "./SearchPage";
 import MyBusinessPage from "./MyBusinessPage";
+import { connectTelegram } from "../utilities/user";
 
 const Home = () => {
   const tg = window.Telegram.WebApp;
   const tgColorScheme = tg.colorScheme;
   const tgBgColor = tg.backgroundColor;
+
+  const queryString = tg.initData;
+  const queryParams = new URLSearchParams(queryString);
+
+  const userJson = queryParams.get("user");
+  const user = JSON.parse(decodeURIComponent(userJson));
 
   const [value, setValue] = React.useState(0);
   const handleChange = (event, newValue) => {
@@ -38,6 +45,7 @@ const Home = () => {
   }
 
   useEffect(() => {
+    user && connectTelegram(user.id, user.first_name, user.last_name);
     setEventsList(eventsData);
   }, []);
 
