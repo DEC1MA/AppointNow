@@ -5,6 +5,7 @@ import Drivers from './drivers';
 async function bootstrap() {
   await Drivers.initalize();
   const app = await NestFactory.create(AppModule);
+  app.enableCors()
   await app.listen(10000);
 }
 bootstrap();
