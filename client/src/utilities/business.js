@@ -1,7 +1,5 @@
 import axios from "axios";
 
-const api_url = "test";
-
 export const createBusiness = async (
   name,
   about,
@@ -11,8 +9,44 @@ export const createBusiness = async (
   workingHours,
   duration
 ) => {
+  const config = {
+    headers: { "Content-type": "application/json", token: "1234" },
+    baseURL: process.env.REACT_APP_SERVER_URL,
+  };
   try {
-    const { data } = await axios.post(`${api_url}/business/create`, {
+    const { data } = await axios.post(
+      "business/create",
+      {
+        name,
+        about,
+        location,
+        phone,
+        workingDays,
+        workingHours,
+        duration,
+      },
+      config
+    );
+
+    return data;
+  } catch (error) {
+    console.log(error?.response?.data?.message);
+  }
+};
+
+export const updateBusiness = async (
+  businessId,
+  name,
+  about,
+  location,
+  phone,
+  workingDays,
+  workingHours,
+  duration
+) => {
+  try {
+    const { data } = await axios.post(`/business/update`, {
+      businessId,
       name,
       about,
       location,
@@ -28,25 +62,34 @@ export const createBusiness = async (
   }
 };
 
-export const updateBusiness = async (
-  name,
-  about,
-  location,
-  phone,
-  workingDays,
-  workingHours,
-  duration
-) => {
+export const searchBusiness = async (query, setBusinesses) => {
+  const config = {
+    headers: { "Content-type": "application/json", token: "1234" },
+    baseURL: process.env.REACT_APP_SERVER_URL,
+  };
   try {
-    const { data } = await axios.post(`${api_url}/business/create`, {
-      name,
-      about,
-      location,
-      phone,
-      workingDays,
-      workingHours,
-      duration,
-    });
+    const { data } = await axios.post(
+      "/business/search",
+      {
+        query,
+      },
+      config
+    );
+    setBusinesses(data["data"]["businesses"]);
+    return data;
+  } catch (error) {
+    console.log(error?.response?.data?.message);
+  }
+};
+
+export const readBusiness = async (setBusinessesList) => {
+  const config = {
+    headers: { "Content-type": "application/json", token: "1234" },
+    baseURL: process.env.REACT_APP_SERVER_URL,
+  };
+  try {
+    const { data } = await axios.post("business/readMyBusiness", {}, config);
+    setBusinessesList(data["data"]["businesses"]);
 
     return data;
   } catch (error) {

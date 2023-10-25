@@ -6,6 +6,7 @@ import SingleAppointment from "../components/SingleAppointment";
 import SingleEventPage from "./SingleEventPage";
 
 import SingleBusinessPage from "./SingleBusinessPage";
+import { searchBusiness } from "../utilities/business";
 
 const SearchPage = ({
   selectedDate,
@@ -19,12 +20,19 @@ const SearchPage = ({
   const tgColorScheme = tg.colorScheme;
   const [showSearch, setShowSearch] = useState(false);
   const [searchType, setSearchType] = useState("events");
+  const [searchText, setSearchText] = useState("");
 
   const [showSingleAppointment, setShowSingleAppointment] = useState(false);
   const [SingleEvent, setSingleEvent] = useState("");
 
   const [showSingleBusiness, setShowSingleBusiness] = useState(false);
   const [SingleBusiness, setSingleBusiness] = useState("");
+  const [businesses, setBusinesses] = useState([]);
+
+  const searchHandler = (query, setBusinesses) => {
+    searchBusiness(query, setBusinesses);
+    setShowSearch(!showSearch);
+  };
 
   const eventsData = [
     { name: "Dr Summer Smith", date: "July 9th | 10:00 PM" },
@@ -32,12 +40,12 @@ const SearchPage = ({
     { name: "Dr Rick Sanchez", date: "July 7th | 2:00 PM" },
   ];
 
-  const businessData = [
-    { name: "Dr Summer Smith", location: "California, US" },
-    { name: "Dr Morty Smith", location: "Texas, US" },
-    { name: "Dr Rick Sanchez", location: "London, UK" },
-    { name: "Dr Bojack Horseman", location: "Tehran, Iran" },
-  ];
+  // const businessData = [
+  //   { name: "Dr Summer Smith", location: "California, US" },
+  //   { name: "Dr Morty Smith", location: "Texas, US" },
+  //   { name: "Dr Rick Sanchez", location: "London, UK" },
+  //   { name: "Dr Bojack Horseman", location: "Tehran, Iran" },
+  // ];
 
   return (
     <div style={{ height: "98%", overflowY: "auto" }}>
@@ -96,12 +104,18 @@ const SearchPage = ({
                   : "Search For Businesses"
               }
               inputProps={{ "aria-label": "search google maps" }}
+              onChange={(e) => {
+                setSearchText(e.target.value);
+              }}
+              value={searchText}
             />
             <IconButton
               type="button"
               sx={{ p: "10px" }}
               aria-label="search"
-              onClick={() => setShowSearch(!showSearch)}
+              onClick={() => {
+                searchHandler(searchText, setBusinesses);
+              }}
             >
               <Search color={"primary"} />
             </IconButton>
@@ -122,7 +136,16 @@ const SearchPage = ({
                 />
               ) : (
                 <>
-                  {businessData.map((item, index) => (
+                  {businesses.map((item, index) => (
+                    <SingleBusinessSearch
+                      key={index}
+                      info={item}
+                      setShowSingleBusiness={setShowSingleBusiness}
+                      showSingleBusiness={showSingleBusiness}
+                      setSingleBusiness={setSingleBusiness}
+                    />
+                  ))}
+                  {/* {businessData.map((item, index) => (
                     <SingleBusinessSearch
                       key={index}
                       info={businessData[index]}
@@ -130,7 +153,7 @@ const SearchPage = ({
                       showSingleBusiness={showSingleBusiness}
                       setSingleBusiness={setSingleBusiness}
                     />
-                  ))}
+                  ))} */}
                 </>
               )}
             </>

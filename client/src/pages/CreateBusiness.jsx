@@ -8,6 +8,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { Done } from "@mui/icons-material";
 import WeekdaySelector from "../components/WeekdaySelector";
 import HourSelector from "../components/HourSelector";
+import { createBusiness } from "../utilities/business";
 
 const CreateBusiness = ({ setShowAddBusiness, addBusiness }) => {
   const tg = window.Telegram.WebApp;
@@ -43,6 +44,26 @@ const CreateBusiness = ({ setShowAddBusiness, addBusiness }) => {
     setDurationText(event.target.value);
   };
 
+  const submitHandler = (
+    name,
+    about,
+    location,
+    phone,
+    workingDays,
+    workingHours,
+    duration
+  ) => {
+    createBusiness(
+      name,
+      about,
+      location,
+      phone,
+      workingDays,
+      workingHours,
+      duration
+    );
+  };
+
   return (
     <Box
       mb={5}
@@ -71,6 +92,15 @@ const CreateBusiness = ({ setShowAddBusiness, addBusiness }) => {
           <IconButton
             color="primary"
             onClick={() => {
+              submitHandler(
+                nameText,
+                aboutText,
+                locationText,
+                phoneText,
+                selectedDays,
+                times,
+                durationText
+              );
               addBusiness(nameText, locationText);
               setShowAddBusiness(false);
             }}

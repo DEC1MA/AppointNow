@@ -45,7 +45,8 @@ const Home = () => {
   }
 
   useEffect(() => {
-    user && connectTelegram(user.id, user.first_name, user.last_name);
+    // user && connectTelegram(user.id, user.first_name, user.last_name);
+    connectTelegram("1234", "hello", "bunny");
     setEventsList(eventsData);
   }, []);
 

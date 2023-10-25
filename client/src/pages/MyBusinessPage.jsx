@@ -13,6 +13,7 @@ import React, { useEffect, useState } from "react";
 import CalendarView from "../components/CalendarView";
 import CreateBusiness from "./CreateBusiness";
 import ModifyBusiness from "./ModifyBusiness";
+import { readBusiness } from "../utilities/business";
 
 const MyBusinessPage = () => {
   const tg = window.Telegram.WebApp;
@@ -38,10 +39,11 @@ const MyBusinessPage = () => {
     businessesList.push(newBusiness);
   }
 
-  const businessData = [];
+  // const businessData = [];
 
   useEffect(() => {
-    setBusinessesList(businessData);
+    readBusiness(setBusinessesList);
+    // setBusinessesList(businessData);
   }, []);
 
   return (
@@ -77,6 +79,7 @@ const MyBusinessPage = () => {
                   >
                     Create New Business and Manage Your Customer Appointments
                   </Typography>
+
                   <Box mt={5}>
                     <IconButton onClick={() => setShowAddBusiness(true)}>
                       <AddCircleRounded
