@@ -7,10 +7,11 @@ export const createBusiness = async (
   phone,
   workingDays,
   workingHours,
-  duration
+  duration,
+  token
 ) => {
   const config = {
-    headers: { "Content-type": "application/json", token: "1234" },
+    headers: { "Content-type": "application/json", token: token },
     baseURL: process.env.REACT_APP_SERVER_URL,
   };
   try {
@@ -62,9 +63,9 @@ export const updateBusiness = async (
   }
 };
 
-export const searchBusiness = async (query, setBusinesses) => {
+export const searchBusiness = async (query, setBusinesses, token) => {
   const config = {
-    headers: { "Content-type": "application/json", token: "1234" },
+    headers: { "Content-type": "application/json", token: token },
     baseURL: process.env.REACT_APP_SERVER_URL,
   };
   try {
@@ -82,9 +83,9 @@ export const searchBusiness = async (query, setBusinesses) => {
   }
 };
 
-export const readBusiness = async (setBusinessesList) => {
+export const readBusiness = async (setBusinessesList, token) => {
   const config = {
-    headers: { "Content-type": "application/json", token: "1234" },
+    headers: { "Content-type": "application/json", token: token },
     baseURL: process.env.REACT_APP_SERVER_URL,
   };
   try {

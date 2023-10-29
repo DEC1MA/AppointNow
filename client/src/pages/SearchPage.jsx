@@ -1,4 +1,4 @@
-import { Business, Event, Search } from "@mui/icons-material";
+import { Business, Cancel, Event, Search } from "@mui/icons-material";
 import { Box, IconButton, InputBase, Paper, Tab, Tabs } from "@mui/material";
 import React, { useState } from "react";
 import SingleBusinessSearch from "../components/SingleBusinessSearch";
@@ -7,6 +7,7 @@ import SingleEventPage from "./SingleEventPage";
 
 import SingleBusinessPage from "./SingleBusinessPage";
 import { searchBusiness } from "../utilities/business";
+import { searchEvent } from "../utilities/event";
 
 const SearchPage = ({
   selectedDate,
@@ -18,6 +19,13 @@ const SearchPage = ({
 }) => {
   const tg = window.Telegram.WebApp;
   const tgColorScheme = tg.colorScheme;
+
+  const queryString = tg.initData;
+  const queryParams = new URLSearchParams(queryString);
+
+  const userJson = queryParams.get("user");
+  const user = JSON.parse(decodeURIComponent(userJson));
+
   const [showSearch, setShowSearch] = useState(false);
   const [searchType, setSearchType] = useState("events");
   const [searchText, setSearchText] = useState("");
@@ -28,9 +36,17 @@ const SearchPage = ({
   const [showSingleBusiness, setShowSingleBusiness] = useState(false);
   const [SingleBusiness, setSingleBusiness] = useState("");
   const [businesses, setBusinesses] = useState([]);
+  const [events, setEvents] = useState([]);
 
-  const searchHandler = (query, setBusinesses) => {
-    searchBusiness(query, setBusinesses);
+  const searchHandler = (query, setBusinesses, token) => {
+    token = user.id;
+    searchBusiness(query, setBusinesses, token);
+    setShowSearch(!showSearch);
+  };
+
+  const eventSearchHandler = (query, setEvents, token) => {
+    token = user.id;
+    searchEvent(query, setEvents, token);
     setShowSearch(!showSearch);
   };
 
@@ -114,10 +130,12 @@ const SearchPage = ({
               sx={{ p: "10px" }}
               aria-label="search"
               onClick={() => {
-                searchHandler(searchText, setBusinesses);
+                searchType === "events"
+                  ? eventSearchHandler(searchText, setEvents)
+                  : searchHandler(searchText, setBusinesses);
               }}
             >
-              <Search color={"primary"} />
+              {showSearch ? <Cancel /> : <Search color={"primary"} />}
             </IconButton>
           </Paper>
           {showSearch && searchType !== "events" && (
@@ -145,15 +163,6 @@ const SearchPage = ({
                       setSingleBusiness={setSingleBusiness}
                     />
                   ))}
-                  {/* {businessData.map((item, index) => (
-                    <SingleBusinessSearch
-                      key={index}
-                      info={businessData[index]}
-                      setShowSingleBusiness={setShowSingleBusiness}
-                      showSingleBusiness={showSingleBusiness}
-                      setSingleBusiness={setSingleBusiness}
-                    />
-                  ))} */}
                 </>
               )}
             </>
@@ -169,7 +178,7 @@ const SearchPage = ({
                 />
               ) : (
                 <>
-                  {eventsList.map((item, index) => (
+                  {eventsData.map((item, index) => (
                     <SingleAppointment
                       key={index}
                       info={eventsData[index]}

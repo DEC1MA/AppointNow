@@ -35,7 +35,7 @@ const SingleBusinessPage = ({
           </IconButton>
           <IconButton
             onClick={() => {
-              addEvent(SingleBusiness.name, selectedDate, selectedTime);
+              addEvent(SingleBusiness._id, selectedDate, selectedTime);
               setShowSingleBusiness(false);
             }}
             color="primary"

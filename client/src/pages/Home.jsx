@@ -13,6 +13,7 @@ import SwipeableViews from "react-swipeable-views";
 import SearchPage from "./SearchPage";
 import MyBusinessPage from "./MyBusinessPage";
 import { connectTelegram } from "../utilities/user";
+import { createEvent } from "../utilities/event";
 
 const Home = () => {
   const tg = window.Telegram.WebApp;
@@ -39,14 +40,27 @@ const Home = () => {
 
   const eventsData = [];
 
-  function addEvent(name, date, time) {
+  function addEvent(name, date, time, token) {
+    token = user.id;
+    const dateObj = new Date(date);
+    const timeParts = time.split(":");
+    dateObj.setHours(parseInt(timeParts[0], 10));
+    dateObj.setMinutes(parseInt(timeParts[1], 10));
+    dateObj.setSeconds(0);
+
+    // Convert the Date object to a timestamp (number)
+    const timestamp = dateObj.getTime();
+
+    createEvent(name, timestamp, token);
+
     const newBusiness = { name, date, time };
     eventsList.push(newBusiness);
   }
 
   useEffect(() => {
-    // user && connectTelegram(user.id, user.first_name, user.last_name);
-    connectTelegram("1234", "hello", "bunny");
+    user && connectTelegram(user.id, user.first_name, user.last_name);
+    // connectTelegram("1234", "hello", "bunny");
+    // connectTelegram("123", "hello", "bunny");
     setEventsList(eventsData);
   }, []);
 

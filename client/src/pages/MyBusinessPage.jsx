@@ -19,6 +19,14 @@ const MyBusinessPage = () => {
   const tg = window.Telegram.WebApp;
   const tgColorScheme = tg.colorScheme;
 
+  const queryString = tg.initData;
+  const queryParams = new URLSearchParams(queryString);
+
+  const userJson = queryParams.get("user");
+  const user = JSON.parse(decodeURIComponent(userJson));
+
+  const userId = user && user.id;
+
   const [businessesList, setBusinessesList] = useState([]);
   const [selectedBusiness, setSelectedBusiness] = React.useState(null);
   const [showAddBusiness, setShowAddBusiness] = useState(false);
@@ -35,14 +43,15 @@ const MyBusinessPage = () => {
   const [showBusinesses, setShowBusinesses] = useState(false);
 
   function addBusiness(name, location) {
-    const newBusiness = { name, location };
+    const token = user && user.id;
+    const newBusiness = { name, location, token };
     businessesList.push(newBusiness);
   }
 
   // const businessData = [];
 
   useEffect(() => {
-    readBusiness(setBusinessesList);
+    readBusiness(setBusinessesList, userId);
     // setBusinessesList(businessData);
   }, []);
 

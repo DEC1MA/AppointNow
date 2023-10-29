@@ -2,12 +2,20 @@ import axios from "axios";
 
 const api_url = "test";
 
-export const createEvent = async (businessId, startTime) => {
+export const createEvent = async (businessId, startTime, token) => {
   try {
-    const { data } = await axios.post(`${api_url}/event/create`, {
-      businessId,
-      startTime,
-    });
+    const config = {
+      headers: { "Content-type": "application/json", token: token },
+      baseURL: process.env.REACT_APP_SERVER_URL,
+    };
+    const { data } = await axios.post(
+      "/event/create",
+      {
+        businessId,
+        startTime,
+      },
+      config
+    );
 
     return data;
   } catch (error) {
@@ -15,12 +23,20 @@ export const createEvent = async (businessId, startTime) => {
   }
 };
 
-export const searchEvent = async (search) => {
+export const searchEvent = async (query, setEvents, token) => {
+  const config = {
+    headers: { "Content-type": "application/json", token: token },
+    baseURL: process.env.REACT_APP_SERVER_URL,
+  };
   try {
-    const { data } = await axios.post(`${api_url}/event/search`, {
-      search,
-    });
-
+    const { data } = await axios.post(
+      "/event/search",
+      {
+        query,
+      },
+      config
+    );
+    setEvents(data["data"]["events"]);
     return data;
   } catch (error) {
     console.log(error?.response?.data?.message);
