@@ -175,7 +175,7 @@ const SearchPage = ({
                 />
               ) : (
                 <>
-                  {businesses.map((item, index) => (
+                  {businesses?.map((item, index) => (
                     <SingleBusinessSearch
                       key={index}
                       info={item}
@@ -199,7 +199,7 @@ const SearchPage = ({
                 />
               ) : (
                 <>
-                  {events.map((item, index) => (
+                  {events?.map((item, index) => (
                     <SingleAppointment
                       key={index}
                       info={item}

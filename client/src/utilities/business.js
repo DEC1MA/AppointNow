@@ -10,10 +10,14 @@ export const createBusiness = async (
   duration,
   token
 ) => {
+  if (process.env.REACT_APP_DEV === "true") {
+    token = "2222";
+  }
   const config = {
     headers: { "Content-type": "application/json", token: token },
     baseURL: process.env.REACT_APP_SERVER_URL,
   };
+
   try {
     const { data } = await axios.post(
       "business/create",
@@ -46,10 +50,14 @@ export const updateBusiness = async (
   duration,
   token
 ) => {
+  if (process.env.REACT_APP_DEV === "true") {
+    token = "2222";
+  }
   const config = {
     headers: { "Content-type": "application/json", token: token },
     baseURL: process.env.REACT_APP_SERVER_URL,
   };
+
   try {
     const { data } = await axios.post(
       "/business/update",
@@ -73,10 +81,14 @@ export const updateBusiness = async (
 };
 
 export const searchBusiness = async (query, setBusinesses, token) => {
+  if (process.env.REACT_APP_DEV === "true") {
+    token = "2222";
+  }
   const config = {
     headers: { "Content-type": "application/json", token: token },
     baseURL: process.env.REACT_APP_SERVER_URL,
   };
+
   try {
     const { data } = await axios.post(
       "/business/search",
@@ -93,10 +105,14 @@ export const searchBusiness = async (query, setBusinesses, token) => {
 };
 
 export const readBusiness = async (setBusinessesList, token) => {
+  if (process.env.REACT_APP_DEV === "true") {
+    token = "2222";
+  }
   const config = {
     headers: { "Content-type": "application/json", token: token },
     baseURL: process.env.REACT_APP_SERVER_URL,
   };
+
   try {
     const { data } = await axios.post("business/readMyBusiness", {}, config);
     setBusinessesList(data["data"]["businesses"]);

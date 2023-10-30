@@ -1,13 +1,15 @@
 import axios from "axios";
 
-const api_url = "test";
-
 export const createEvent = async (businessId, startTime, token) => {
   try {
+    if (process.env.REACT_APP_DEV === "true") {
+      token = "2222";
+    }
     const config = {
       headers: { "Content-type": "application/json", token: token },
       baseURL: process.env.REACT_APP_SERVER_URL,
     };
+
     const { data } = await axios.post(
       "/event/create",
       {
@@ -24,10 +26,14 @@ export const createEvent = async (businessId, startTime, token) => {
 };
 
 export const searchEvent = async (query, setEvents, token) => {
+  if (process.env.REACT_APP_DEV === "true") {
+    token = "2222";
+  }
   const config = {
     headers: { "Content-type": "application/json", token: token },
     baseURL: process.env.REACT_APP_SERVER_URL,
   };
+
   try {
     const { data } = await axios.post(
       "/event/search",
@@ -45,10 +51,14 @@ export const searchEvent = async (query, setEvents, token) => {
 
 export const cancelEvent = async (eventId, token) => {
   try {
+    if (process.env.REACT_APP_DEV === "true") {
+      token = "2222";
+    }
     const config = {
       headers: { "Content-type": "application/json", token: token },
       baseURL: process.env.REACT_APP_SERVER_URL,
     };
+
     const { data } = await axios.post(
       "/event/cancel",
       {
@@ -65,10 +75,14 @@ export const cancelEvent = async (eventId, token) => {
 
 export const readFreeTimes = async (businessId, token) => {
   try {
+    if (process.env.REACT_APP_DEV === "true") {
+      token = "2222";
+    }
     const config = {
       headers: { "Content-type": "application/json", token: token },
       baseURL: process.env.REACT_APP_SERVER_URL,
     };
+
     const { data } = await axios.post(
       "event/readFreeTimes",
       {
@@ -85,10 +99,14 @@ export const readFreeTimes = async (businessId, token) => {
 
 export const businessEvents = async (businessId, setEvents, token) => {
   try {
+    if (process.env.REACT_APP_DEV === "true") {
+      token = "2222";
+    }
     const config = {
       headers: { "Content-type": "application/json", token: token },
       baseURL: process.env.REACT_APP_SERVER_URL,
     };
+
     const { data } = await axios.post(
       "event/businessEvents",
       {

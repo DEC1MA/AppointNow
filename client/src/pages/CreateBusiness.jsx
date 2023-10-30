@@ -44,14 +44,16 @@ const CreateBusiness = ({ setShowAddBusiness, addBusiness }) => {
     setLocationText(event.target.value);
   };
   const phoneTextHandler = (event) => {
-    setPhoneText(event.target.value);
+    const sanitizedValue = event.target.value.replace(/[^0-9]/g, "");
+    setPhoneText(sanitizedValue);
   };
   const aboutTexthandler = (event) => {
     setAboutText(event.target.value);
   };
 
   const durationTexthandler = (event) => {
-    setDurationText(event.target.value);
+    const sanitizedValue = event.target.value.replace(/[^0-9]/g, "");
+    setDurationText(sanitizedValue);
   };
 
   const submitHandler = (
@@ -101,6 +103,14 @@ const CreateBusiness = ({ setShowAddBusiness, addBusiness }) => {
             Create Business
           </Typography>
           <IconButton
+            disabled={
+              !nameText ||
+              !locationText ||
+              !phoneText ||
+              !aboutText ||
+              selectedDays.length < 1 ||
+              !durationText
+            }
             color="primary"
             onClick={() => {
               submitHandler(
@@ -218,6 +228,9 @@ const CreateBusiness = ({ setShowAddBusiness, addBusiness }) => {
                 backgroundColor: "#fff",
                 borderRadius: 30,
                 border: "none",
+              },
+              inputProps: {
+                inputMode: "numeric",
               },
             }}
           />

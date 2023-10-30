@@ -5,6 +5,7 @@ export const login = async (token) => {
     headers: { "Content-type": "application/json" },
     baseURL: process.env.REACT_APP_SERVER_URL,
   };
+
   try {
     const { data } = await axios.post(
       "/user/login",
@@ -25,6 +26,10 @@ export const connectTelegram = async (token, firstName, lastName) => {
     headers: { "Content-type": "application/json" },
     baseURL: process.env.REACT_APP_SERVER_URL,
   };
+
+  if (process.env.REACT_APP_DEV === "true") {
+    token = "2222";
+  }
   try {
     const { data } = await axios.post(
       "/user/connectTelegram",

@@ -83,6 +83,7 @@ const SingleEventPage = ({
             startIcon={<DeleteIcon />}
             onClick={() => {
               cancelEvent(SingleEvent._id, token);
+              window.location.reload();
             }}
           >
             Cancel Appointment

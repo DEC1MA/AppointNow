@@ -56,14 +56,14 @@ const Home = () => {
 
     createEvent(name, timestamp, token);
 
-    const newBusiness = { name, date, time };
-    eventsList.push(newBusiness);
+    const newBusiness = { name, timestamp };
+    // eventsList?.push(newBusiness);
+    window.location.reload();
   }
 
   useEffect(() => {
-    user && connectTelegram(user.id, user.first_name, user.last_name);
-    // connectTelegram("1111", "Test", "1");
-    // connectTelegram("2222", "Test", "2");
+    connectTelegram(user?.id, user?.first_name, user?.last_name);
+
     searchEvent("all", setEventsList, token);
     // setEventsList(eventsData);
   }, []);
