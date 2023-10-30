@@ -135,7 +135,7 @@ const ModifyBusiness = ({ setShowEditBusiness, selectedBusiness }) => {
           label="Business Name"
           // variant="outlined"
           InputProps={{
-            sx: { backgroundColor: "#fff", borderRadius: 30, border: "none" },
+            sx: { backgroundColor: "#fff", borderRadius: 5, border: "none" },
           }}
         />
         <TextField
@@ -146,7 +146,7 @@ const ModifyBusiness = ({ setShowEditBusiness, selectedBusiness }) => {
           // variant="outlined"
           style={{ marginTop: 16 }}
           InputProps={{
-            sx: { backgroundColor: "#fff", borderRadius: 30, border: "none" },
+            sx: { backgroundColor: "#fff", borderRadius: 5, border: "none" },
           }}
         />
         <TextField
@@ -157,7 +157,7 @@ const ModifyBusiness = ({ setShowEditBusiness, selectedBusiness }) => {
           // variant="outlined"
           style={{ marginTop: 16 }}
           InputProps={{
-            sx: { backgroundColor: "#fff", borderRadius: 30, border: "none" },
+            sx: { backgroundColor: "#fff", borderRadius: 5, border: "none" },
           }}
         />
         <TextField
@@ -168,7 +168,7 @@ const ModifyBusiness = ({ setShowEditBusiness, selectedBusiness }) => {
           // variant="outlined"
           style={{ marginTop: 16 }}
           InputProps={{
-            sx: { backgroundColor: "#fff", borderRadius: 30, border: "none" },
+            sx: { backgroundColor: "#fff", borderRadius: 5, border: "none" },
           }}
         />
         <Typography color={textColor} mt={3} variant="h6">
@@ -220,7 +220,7 @@ const ModifyBusiness = ({ setShowEditBusiness, selectedBusiness }) => {
             InputProps={{
               sx: {
                 backgroundColor: "#fff",
-                borderRadius: 30,
+                borderRadius: 5,
                 border: "none",
               },
             }}
