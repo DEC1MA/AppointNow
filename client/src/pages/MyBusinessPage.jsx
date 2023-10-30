@@ -26,9 +26,9 @@ const MyBusinessPage = () => {
   const userJson = queryParams.get("user");
   const user = JSON.parse(decodeURIComponent(userJson));
 
-  // const token = user && user.id;
+  const token = user && user.id;
   // const token = "1111";
-  const token = "2222";
+  // const token = "2222";
 
   const [businessesList, setBusinessesList] = useState([]);
   const [eventsList, setEventsList] = useState([]);
