@@ -22,7 +22,7 @@ const ForMe = ({ eventsList }) => {
       style={{ height: "98%", overflowY: "auto", backgroundColor: tgBgColor }}
     >
       <Box>
-        {eventsList?.length < 1 ? (
+        {!eventsList || eventsList?.length < 1 ? (
           <Box
             // bgcolor={tgBgColor}
             height={"100vh"}
