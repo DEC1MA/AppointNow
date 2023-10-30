@@ -21,7 +21,11 @@ export const login = async (token) => {
   }
 };
 
-export const connectTelegram = async (token, firstName, lastName) => {
+export const connectTelegram = async (
+  token,
+  firstName = "John",
+  lastName = "Doe"
+) => {
   const config = {
     headers: { "Content-type": "application/json" },
     baseURL: process.env.REACT_APP_SERVER_URL,

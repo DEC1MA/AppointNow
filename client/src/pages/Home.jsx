@@ -54,11 +54,19 @@ const Home = () => {
     // Convert the Date object to a timestamp (number)
     const timestamp = dateObj.getTime();
 
-    createEvent(name, timestamp, token);
+    // createEvent(name, timestamp, token);
 
-    const newBusiness = { name, timestamp };
+    // const newBusiness = { name, timestamp };
     // eventsList?.push(newBusiness);
-    window.location.reload();
+    createEvent(name, timestamp, token)
+      .then(() => {
+        // Handle success
+        window.location.reload();
+      })
+      .catch((error) => {
+        // Handle error
+        console.error(error);
+      });
   }
 
   useEffect(() => {
