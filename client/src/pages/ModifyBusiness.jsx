@@ -227,14 +227,14 @@ const ModifyBusiness = ({ setShowEditBusiness, selectedBusiness }) => {
           />
         </Box>
         <Box p={3}>
-          <Button
+          {/* <Button
             variant="contained"
             color="error"
             startIcon={<DeleteIcon />}
             onClick={() => {}}
           >
             Remove Business
-          </Button>
+          </Button> */}
         </Box>
       </Stack>
     </Box>
