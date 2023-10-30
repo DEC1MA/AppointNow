@@ -36,16 +36,26 @@ export const searchEvent = async (query, setEvents, token) => {
       },
       config
     );
-    setEvents(data["data"]["events"]);
+    setEvents(data["events"]);
     return data;
   } catch (error) {
     console.log(error?.response?.data?.message);
   }
 };
 
-export const cancelUserEvent = async () => {
+export const cancelEvent = async (eventId, token) => {
   try {
-    const { data } = await axios.post(`${api_url}/event/cancel`, {});
+    const config = {
+      headers: { "Content-type": "application/json", token: token },
+      baseURL: process.env.REACT_APP_SERVER_URL,
+    };
+    const { data } = await axios.post(
+      "/event/cancel",
+      {
+        eventId,
+      },
+      config
+    );
 
     return data;
   } catch (error) {
@@ -53,11 +63,19 @@ export const cancelUserEvent = async () => {
   }
 };
 
-export const cancelBusinessEvent = async (businessId) => {
+export const readFreeTimes = async (businessId, token) => {
   try {
-    const { data } = await axios.post(`${api_url}/event/cancelUserEvent`, {
-      businessId,
-    });
+    const config = {
+      headers: { "Content-type": "application/json", token: token },
+      baseURL: process.env.REACT_APP_SERVER_URL,
+    };
+    const { data } = await axios.post(
+      "event/readFreeTimes",
+      {
+        businessId,
+      },
+      config
+    );
 
     return data;
   } catch (error) {
@@ -65,12 +83,20 @@ export const cancelBusinessEvent = async (businessId) => {
   }
 };
 
-export const cancelEvent = async (eventId) => {
+export const businessEvents = async (businessId, setEvents, token) => {
   try {
-    const { data } = await axios.post(`${api_url}/event/cancelEvent`, {
-      eventId,
-    });
-
+    const config = {
+      headers: { "Content-type": "application/json", token: token },
+      baseURL: process.env.REACT_APP_SERVER_URL,
+    };
+    const { data } = await axios.post(
+      "event/businessEvents",
+      {
+        businessId,
+      },
+      config
+    );
+    setEvents(data["events"]);
     return data;
   } catch (error) {
     console.log(error?.response?.data?.message);

@@ -13,7 +13,7 @@ import SwipeableViews from "react-swipeable-views";
 import SearchPage from "./SearchPage";
 import MyBusinessPage from "./MyBusinessPage";
 import { connectTelegram } from "../utilities/user";
-import { createEvent } from "../utilities/event";
+import { createEvent, searchEvent } from "../utilities/event";
 
 const Home = () => {
   const tg = window.Telegram.WebApp;
@@ -25,6 +25,10 @@ const Home = () => {
 
   const userJson = queryParams.get("user");
   const user = JSON.parse(decodeURIComponent(userJson));
+
+  const token = user && user.id;
+  // const token = "1111";
+  // const token = "2222";
 
   const [value, setValue] = React.useState(0);
   const handleChange = (event, newValue) => {
@@ -40,8 +44,7 @@ const Home = () => {
 
   const eventsData = [];
 
-  function addEvent(name, date, time, token) {
-    token = user.id;
+  function addEvent(name, date, time) {
     const dateObj = new Date(date);
     const timeParts = time.split(":");
     dateObj.setHours(parseInt(timeParts[0], 10));
@@ -58,10 +61,11 @@ const Home = () => {
   }
 
   useEffect(() => {
-    user && connectTelegram(user.id, user.first_name, user.last_name);
-    // connectTelegram("1234", "hello", "bunny");
-    // connectTelegram("123", "hello", "bunny");
-    setEventsList(eventsData);
+    // user && connectTelegram(user.id, user.first_name, user.last_name);
+    // connectTelegram("1111", "Test", "1");
+    connectTelegram("2222", "Test", "2");
+    searchEvent("all", setEventsList, token);
+    // setEventsList(eventsData);
   }, []);
 
   return (

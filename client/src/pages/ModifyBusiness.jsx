@@ -8,25 +8,34 @@ import { Done } from "@mui/icons-material";
 import WeekdaySelector from "../components/WeekdaySelector";
 import HourSelector from "../components/HourSelector";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { updateBusiness } from "../utilities/business";
 
-const ModifyBusiness = ({
-  setShowEditBusiness,
-  addBusiness,
-  selectedBusiness,
-}) => {
+const ModifyBusiness = ({ setShowEditBusiness, selectedBusiness }) => {
   const tg = window.Telegram.WebApp;
   const tgColorScheme = tg.colorScheme;
   const tgBgColor = tg.backgroundColor;
+
+  const queryString = tg.initData;
+  const queryParams = new URLSearchParams(queryString);
+
+  const userJson = queryParams.get("user");
+  const user = JSON.parse(decodeURIComponent(userJson));
+
+  const token = user && user.id;
+  // const token = "1111";
+  // const token = "2222";
 
   const textColor = tgColorScheme === "dark" ? "white" : "black";
 
   const [nameText, setNameText] = useState(selectedBusiness?.name);
   const [locationText, setLocationText] = useState(selectedBusiness?.location);
-  const [phoneText, setPhoneText] = useState("");
-  const [aboutText, setAboutText] = useState("");
-  const [durationText, setDurationText] = useState("");
+  const [phoneText, setPhoneText] = useState(selectedBusiness?.phone);
+  const [aboutText, setAboutText] = useState(selectedBusiness?.about);
+  const [durationText, setDurationText] = useState(selectedBusiness?.duration);
 
-  const [selectedDays, setSelectedDays] = useState([]);
+  const [selectedDays, setSelectedDays] = useState(
+    selectedBusiness?.workingDays
+  );
 
   const [times, setTimes] = useState([{ startTime: "", endTime: "" }]);
 
@@ -47,10 +56,28 @@ const ModifyBusiness = ({
     setDurationText(event.target.value);
   };
 
-  // const [selectedCount, setSelectedCount] = useState(2);
-  // const handleAddHourSelector = () => {
-  //   setSelectedCount(selectedCount + 2);
-  // };
+  const submitHandler = (
+    businessId,
+    name,
+    about,
+    location,
+    phone,
+    workingDays,
+    workingHours,
+    duration
+  ) => {
+    updateBusiness(
+      businessId,
+      name,
+      about,
+      location,
+      phone,
+      workingDays,
+      workingHours,
+      duration,
+      token
+    );
+  };
 
   return (
     <Box
@@ -83,7 +110,16 @@ const ModifyBusiness = ({
           <IconButton
             color="primary"
             onClick={() => {
-              addBusiness(nameText, locationText);
+              submitHandler(
+                selectedBusiness._id,
+                nameText,
+                aboutText,
+                locationText,
+                phoneText,
+                selectedDays,
+                times,
+                durationText
+              );
               setShowEditBusiness(false);
             }}
           >

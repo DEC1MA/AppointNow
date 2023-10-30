@@ -43,19 +43,28 @@ export const updateBusiness = async (
   phone,
   workingDays,
   workingHours,
-  duration
+  duration,
+  token
 ) => {
+  const config = {
+    headers: { "Content-type": "application/json", token: token },
+    baseURL: process.env.REACT_APP_SERVER_URL,
+  };
   try {
-    const { data } = await axios.post(`/business/update`, {
-      businessId,
-      name,
-      about,
-      location,
-      phone,
-      workingDays,
-      workingHours,
-      duration,
-    });
+    const { data } = await axios.post(
+      "/business/update",
+      {
+        businessId,
+        name,
+        about,
+        location,
+        phone,
+        workingDays,
+        workingHours,
+        duration,
+      },
+      config
+    );
 
     return data;
   } catch (error) {

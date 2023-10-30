@@ -26,6 +26,10 @@ const SearchPage = ({
   const userJson = queryParams.get("user");
   const user = JSON.parse(decodeURIComponent(userJson));
 
+  const token = user && user.id;
+  // const token = "1111";
+  // const token = "2222";
+
   const [showSearch, setShowSearch] = useState(false);
   const [searchType, setSearchType] = useState("events");
   const [searchText, setSearchText] = useState("");
@@ -38,16 +42,23 @@ const SearchPage = ({
   const [businesses, setBusinesses] = useState([]);
   const [events, setEvents] = useState([]);
 
-  const searchHandler = (query, setBusinesses, token) => {
-    token = user.id;
-    searchBusiness(query, setBusinesses, token);
-    setShowSearch(!showSearch);
+  const searchHandler = (query, setBusinesses) => {
+    if (searchText !== "") {
+      searchBusiness(query, setBusinesses, token);
+      setShowSearch(true);
+    }
   };
 
-  const eventSearchHandler = (query, setEvents, token) => {
-    token = user.id;
-    searchEvent(query, setEvents, token);
-    setShowSearch(!showSearch);
+  const eventSearchHandler = (query, setEvents) => {
+    if (searchText !== "") {
+      searchEvent(query, setEvents, token);
+      setShowSearch(true);
+    }
+  };
+
+  const closeHandler = () => {
+    setShowSearch(false);
+    setSearchText("");
   };
 
   const eventsData = [
@@ -113,6 +124,14 @@ const SearchPage = ({
             }}
           >
             <InputBase
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  searchType === "events"
+                    ? eventSearchHandler(searchText, setEvents)
+                    : searchHandler(searchText, setBusinesses);
+                }
+              }}
               sx={{ mx: 2, flex: 1 }}
               placeholder={
                 searchType === "events"
@@ -130,9 +149,11 @@ const SearchPage = ({
               sx={{ p: "10px" }}
               aria-label="search"
               onClick={() => {
-                searchType === "events"
-                  ? eventSearchHandler(searchText, setEvents)
-                  : searchHandler(searchText, setBusinesses);
+                !showSearch
+                  ? searchType === "events"
+                    ? eventSearchHandler(searchText, setEvents)
+                    : searchHandler(searchText, setBusinesses)
+                  : closeHandler();
               }}
             >
               {showSearch ? <Cancel /> : <Search color={"primary"} />}
@@ -178,10 +199,10 @@ const SearchPage = ({
                 />
               ) : (
                 <>
-                  {eventsData.map((item, index) => (
+                  {events.map((item, index) => (
                     <SingleAppointment
                       key={index}
-                      info={eventsData[index]}
+                      info={item}
                       setShowSingleAppointment={setShowSingleAppointment}
                       showSingleAppointment={showSingleAppointment}
                       setSingleEvent={setSingleEvent}

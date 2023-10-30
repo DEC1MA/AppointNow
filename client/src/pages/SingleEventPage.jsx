@@ -4,6 +4,7 @@ import React from "react";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import DeleteIcon from "@mui/icons-material/Delete";
 import StringAvatar from "../components/StringAvatar";
+import { cancelEvent } from "../utilities/event";
 
 const SingleEventPage = ({
   setShowSingleAppointment,
@@ -12,8 +13,23 @@ const SingleEventPage = ({
   setSingleEvent,
   info,
 }) => {
+  const startTime = new Date(SingleEvent.startTime);
+
+  // Format the date and time using toLocaleString()
+  const formattedDate = startTime.toLocaleString();
+
   const tg = window.Telegram.WebApp;
   const tgColorScheme = tg.colorScheme;
+
+  const queryString = tg.initData;
+  const queryParams = new URLSearchParams(queryString);
+
+  const userJson = queryParams.get("user");
+  const user = JSON.parse(decodeURIComponent(userJson));
+
+  const token = user && user.id;
+  // const token = "1111";
+  // const token = "2222";
 
   const textColor = tgColorScheme === "dark" ? "white" : "black";
   return (
@@ -41,11 +57,23 @@ const SingleEventPage = ({
             alignItems={"center"}
             justifyContent={"space-between"}
           >
-            <StringAvatar text={SingleEvent.name} />
+            <StringAvatar
+              text={
+                SingleEvent.business
+                  ? SingleEvent.business.name
+                  : SingleEvent.user.firstName + " " + SingleEvent.user.lastName
+              }
+            />
 
             <Box display={"flex"} flexDirection={"column"} p={1}>
-              <Typography color={textColor}>{SingleEvent.name}</Typography>
-              <Typography color={textColor}>{SingleEvent.date}</Typography>
+              <Typography color={textColor}>
+                {SingleEvent.business
+                  ? SingleEvent.business.name
+                  : SingleEvent.user.firstName +
+                    " " +
+                    SingleEvent.user.lastName}
+              </Typography>
+              <Typography color={textColor}>{formattedDate}</Typography>
             </Box>
           </Box>
           <Button
@@ -53,7 +81,9 @@ const SingleEventPage = ({
             variant="contained"
             color="error"
             startIcon={<DeleteIcon />}
-            onClick={() => {}}
+            onClick={() => {
+              cancelEvent(SingleEvent._id, token);
+            }}
           >
             Cancel Appointment
           </Button>

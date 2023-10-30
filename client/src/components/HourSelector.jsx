@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, TextField, Grid, IconButton } from "@mui/material";
+import { Button, TextField, Grid, IconButton, Box } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 const HourSelector = ({ times, setTimes }) => {
@@ -29,45 +29,47 @@ const HourSelector = ({ times, setTimes }) => {
     <div>
       {times.map((time, index) => (
         <Grid p={1} justifyContent={"center"} container spacing={2} key={index}>
-          <Grid item xs={6}>
+          <Grid item>
             <TextField
               InputProps={{
                 sx: {
                   backgroundColor: "#fff",
-                  borderRadius: 30,
+                  borderRadius: 5,
                   border: "none",
                 },
               }}
-              label="Start Time"
+              label="Start"
               variant="outlined"
               value={time.startTime}
               onChange={(e) => handleStartTimeChange(index, e.target.value)}
             />
           </Grid>
-          <Grid item xs={6}>
-            <TextField
-              InputProps={{
-                sx: {
-                  backgroundColor: "#fff",
-                  borderRadius: 30,
-                  border: "none",
-                },
-              }}
-              label="End Time"
-              variant="outlined"
-              value={time.endTime}
-              onChange={(e) => handleEndTimeChange(index, e.target.value)}
-            />
+
+          <Grid item>
+            <Box display={"flex"}>
+              <TextField
+                InputProps={{
+                  sx: {
+                    backgroundColor: "#fff",
+                    borderRadius: 5,
+                    border: "none",
+                  },
+                }}
+                label="End"
+                variant="outlined"
+                value={time.endTime}
+                onChange={(e) => handleEndTimeChange(index, e.target.value)}
+              />
+              {index > 0 && ( // Allow removal of time pairs except the first one
+                <IconButton onClick={() => handleRemoveTime(index)}>
+                  <DeleteIcon />
+                </IconButton>
+              )}
+            </Box>
           </Grid>
-          {index > 0 && ( // Allow removal of time pairs except the first one
-            <Grid item xs={2}>
-              <IconButton onClick={() => handleRemoveTime(index)}>
-                <DeleteIcon />
-              </IconButton>
-            </Grid>
-          )}
         </Grid>
       ))}
+
       <Button
         mt={4}
         style={{ borderRadius: "20px", backgroundColor: "#546dff" }}

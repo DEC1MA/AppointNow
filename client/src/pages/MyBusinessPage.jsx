@@ -14,6 +14,7 @@ import CalendarView from "../components/CalendarView";
 import CreateBusiness from "./CreateBusiness";
 import ModifyBusiness from "./ModifyBusiness";
 import { readBusiness } from "../utilities/business";
+import { businessEvents } from "../utilities/event";
 
 const MyBusinessPage = () => {
   const tg = window.Telegram.WebApp;
@@ -25,9 +26,12 @@ const MyBusinessPage = () => {
   const userJson = queryParams.get("user");
   const user = JSON.parse(decodeURIComponent(userJson));
 
-  const userId = user && user.id;
+  // const token = user && user.id;
+  // const token = "1111";
+  const token = "2222";
 
   const [businessesList, setBusinessesList] = useState([]);
+  const [eventsList, setEventsList] = useState([]);
   const [selectedBusiness, setSelectedBusiness] = React.useState(null);
   const [showAddBusiness, setShowAddBusiness] = useState(false);
   const [showEditBusiness, setShowEditBusiness] = useState(false);
@@ -43,7 +47,6 @@ const MyBusinessPage = () => {
   const [showBusinesses, setShowBusinesses] = useState(false);
 
   function addBusiness(name, location) {
-    const token = user && user.id;
     const newBusiness = { name, location, token };
     businessesList.push(newBusiness);
   }
@@ -51,16 +54,24 @@ const MyBusinessPage = () => {
   // const businessData = [];
 
   useEffect(() => {
-    readBusiness(setBusinessesList, userId);
+    readBusiness(setBusinessesList, token);
     // setBusinessesList(businessData);
   }, []);
+
+  useEffect(() => {
+    setSelectedBusiness(businessesList[0]);
+  }, [businessesList]);
+
+  useEffect(() => {
+    selectedBusiness &&
+      businessEvents(selectedBusiness._id, setEventsList, token);
+  }, [selectedBusiness]);
 
   return (
     <div style={{ height: "98%", overflowY: "auto" }}>
       {showEditBusiness ? (
         <ModifyBusiness
           setShowEditBusiness={setShowEditBusiness}
-          addBusiness={addBusiness}
           selectedBusiness={selectedBusiness}
         />
       ) : (
@@ -151,7 +162,7 @@ const MyBusinessPage = () => {
                       Add New Business
                     </MenuItem>
                   </Menu>
-                  <CalendarView />
+                  <CalendarView eventsList={eventsList} />
                 </Box>
               )}
             </Box>

@@ -15,6 +15,16 @@ const CreateBusiness = ({ setShowAddBusiness, addBusiness }) => {
   const tgColorScheme = tg.colorScheme;
   const tgBgColor = tg.backgroundColor;
 
+  const queryString = tg.initData;
+  const queryParams = new URLSearchParams(queryString);
+
+  const userJson = queryParams.get("user");
+  const user = JSON.parse(decodeURIComponent(userJson));
+
+  const token = user && user.id;
+  // const token = "1111";
+  // const token = "2222";
+
   const textColor = tgColorScheme === "dark" ? "white" : "black";
 
   const [nameText, setNameText] = useState("");
@@ -60,7 +70,8 @@ const CreateBusiness = ({ setShowAddBusiness, addBusiness }) => {
       phone,
       workingDays,
       workingHours,
-      duration
+      duration,
+      token
     );
   };
 

@@ -6,6 +6,10 @@ import TimeSelector from "../components/TimeSelector";
 import StringAvatar from "../components/StringAvatar";
 import Calendar from "../components/Calendar";
 import { Check } from "@mui/icons-material";
+import TimelapseIcon from "@mui/icons-material/Timelapse";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import CorporateFareRoundedIcon from "@mui/icons-material/CorporateFareRounded";
 
 const SingleBusinessPage = ({
   info,
@@ -52,16 +56,34 @@ const SingleBusinessPage = ({
           <StringAvatar text={SingleBusiness && SingleBusiness.name} />
 
           <Box display={"flex"} flexDirection={"column"} p={1}>
-            <Typography color={textColor}>
-              {SingleBusiness && SingleBusiness.name}
-            </Typography>
-            <Typography color={textColor}>
-              {SingleBusiness && SingleBusiness.location}
-            </Typography>
+            <Box display="flex">
+              <CorporateFareRoundedIcon />
+              <Typography color={textColor}>
+                {SingleBusiness && SingleBusiness.name}
+              </Typography>
+            </Box>
+            <Box display={"flex"}>
+              <LocationOnIcon />
+              <Typography color={textColor}>
+                {SingleBusiness && SingleBusiness.location}
+              </Typography>
+            </Box>
           </Box>
           <Box display={"flex"} flexDirection={"column"} p={1}>
-            <Typography color={textColor}>8AM-12PM</Typography>
-            <Typography color={textColor}>4PM-8PM</Typography>
+            {SingleBusiness.workingHours.map((hour) => (
+              <Box display="flex">
+                <AccessTimeIcon />
+                <Typography color={textColor}>
+                  {hour.startTime}-{hour.endTime}
+                </Typography>
+              </Box>
+            ))}
+            <Box display={"flex"}>
+              <TimelapseIcon />
+              <Typography color={textColor}>
+                {SingleBusiness.duration}
+              </Typography>
+            </Box>
           </Box>
         </Box>
       </Box>

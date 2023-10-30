@@ -15,6 +15,11 @@ const SingleAppointment = ({
   showSingleAppointment,
   setSingleEvent,
 }) => {
+  const startTime = new Date(info.startTime);
+
+  // Format the date and time using toLocaleString()
+  const formattedDate = startTime.toLocaleString();
+
   return (
     <div
       onClick={() => {
@@ -26,10 +31,20 @@ const SingleAppointment = ({
       <Box bgcolor={"white"} mt={1} borderRadius={5}>
         <ListItem alignItems="flex-start">
           <ListItemAvatar>
-            <StringAvatar text={info.name} />
+            <StringAvatar
+              text={
+                info.business
+                  ? info?.business?.name
+                  : info?.user?.firstName + " " + info?.user?.lastName
+              }
+            />
           </ListItemAvatar>
           <ListItemText
-            primary={info.name}
+            primary={
+              info.business
+                ? info?.business?.name
+                : info?.user?.firstName + " " + info?.user?.lastName
+            }
             secondary={
               <React.Fragment>
                 <Typography
@@ -38,7 +53,7 @@ const SingleAppointment = ({
                   variant="body2"
                   color="text.primary"
                 ></Typography>
-                {info.date} {info.time}
+                {formattedDate}
               </React.Fragment>
             }
           />
